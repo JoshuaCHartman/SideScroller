@@ -19,9 +19,12 @@ public class playerMovement : MonoBehaviour
 
     // variables affecting movement and jumping- these can be modified in the inspector window to achieve desired results
     [SerializeField] private float _playerWalkSpeed = 12f;
-    [SerializeField] private float _gravity = 20f;
-    [SerializeField] private float _playerJump = 14f;
-    // this is a visual check to confirm gravity is being applied
+    [SerializeField] private float _playerRunSpeed = 24f;
+    [SerializeField] private float _playerActiveSpeed; // holder for speed depending on if walking or running
+
+    [SerializeField] private float _gravity = 50f; // starting value for testing = 20
+    [SerializeField] private float _playerJump = 15f; // starting value for testing = 10. adjusted for snappiness
+    // this is a visual check in inspector to confirm gravity is being applied
     [SerializeField] private float _verticalVelocity;
 
     // double jump bool - will allow one extra jump
@@ -44,7 +47,7 @@ public class playerMovement : MonoBehaviour
         // references 
 
         _characterController = GetComponent<CharacterController>();
-        _playerAnim = GetComponent<Animator>();
+        _playerAnim = GetComponentInChildren<Animator>(); // animator is attached to child component holding models
     }
     private void FixedUpdate()
     {
@@ -63,7 +66,10 @@ public class playerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // move (walk, run, jump)
         MovePlayer();
+
+        // attack (melee, projectile)
     }
 
     void MovePlayer()
@@ -91,7 +97,31 @@ public class playerMovement : MonoBehaviour
        
         // make if walk/run/idle
 
-        _movementDirection *= _playerWalkSpeed * Time.deltaTime;
+        // _movementDirection *= _playerWalkSpeed * Time.deltaTime; // place below states
+
+        if (_characterController.isGrounded)
+        {
+            if (_movementDirection == Vector3.zero)
+            {
+                // Idle
+                Idle();
+            }
+
+            if (_movementDirection != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
+            // if vector3 = 0, then there is no motion. this checks to make sure character is in motion AND Left Shift NOT held down
+            {
+                // walk
+                Walk();
+            }
+
+            if (_movementDirection != Vector3.zero && Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                // run
+                Run();
+            }
+        }
+
+        _movementDirection *= _playerActiveSpeed * Time.deltaTime;
 
         // apply gravity. charactercontroller has no gravity component. test for jump.
         ApplyGravityToPlayer();
@@ -100,6 +130,24 @@ public class playerMovement : MonoBehaviour
         _characterController.Move(_movementDirection);
     }
 
+    
+    private void Idle()
+    {
+
+        _playerAnim.SetFloat("speed", 0f, 0.1f, Time.deltaTime);
+    }
+
+    private void Walk()
+    {
+        _playerActiveSpeed = _playerWalkSpeed;
+        _playerAnim.SetFloat("speed", 0.5f, 0.1f, Time.deltaTime);
+    }
+
+    private void Run()
+    {
+        _playerActiveSpeed = _playerRunSpeed;
+        _playerAnim.SetFloat("speed", 1f, 0.1f, Time.deltaTime);
+    }
     private void ApplyGravityToPlayer()
     { // subtract gravity to vertical velocity, use for y value of movementdirection vector3 (x,y,z)
         _verticalVelocity -= _gravity * Time.deltaTime;
@@ -129,6 +177,9 @@ public class playerMovement : MonoBehaviour
             // turn off double jump so not able to spam jumps
             hasDoubleJump = false;
             ApplyPlayerJump();
+
+            // TO DO add vertical velocity multiplier here for a forward speed bump when double jumping. regular jump = _movement direction.x 
+            // double jump _movement direction.x = x2 movement speed
         }
     }
 

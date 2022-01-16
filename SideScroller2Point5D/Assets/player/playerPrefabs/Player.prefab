@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 788670106710284499}
+  - component: {fileID: 3863975690565617473}
   m_Layer: 0
   m_Name: KayKit Animated Character_v1.1
   m_TagString: Untagged
@@ -34,6 +35,25 @@ Transform:
   m_Father: {fileID: 3724226143389611129}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -110, z: 0}
+--- !u!95 &3863975690565617473
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124477790310351465}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: af4d1724b1c6389418a9ac1a63dabdf8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1257115764037058266
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +422,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4099625167704403651}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: af4d1724b1c6389418a9ac1a63dabdf8, type: 2}
   m_CullingMode: 0
@@ -424,13 +444,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 1.8
   m_Radius: 0.5
   m_SlopeLimit: 80
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.8, z: 0}
+  m_Center: {x: 0, y: 0.78, z: 0}
 --- !u!136 &4099625167704403652
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -444,7 +464,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.82, z: 0}
+  m_Center: {x: 0, y: 0.78, z: 0}
 --- !u!114 &4099625167704403654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,8 +477,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867e92d4e6ae5c6498cf04e497dc53f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSpeed: 12
-  _gravity: 20
+  _playerWalkSpeed: 12
+  _playerRunSpeed: 24
+  _playerActiveSpeed: 0
+  _gravity: 50
   _playerJump: 14
   _verticalVelocity: 0
   _playerAnimatedCharacterTF: {fileID: 788670106710284499}
@@ -1011,6 +1033,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4385038171219439299}
+  - component: {fileID: 5108245516529594305}
   m_Layer: 0
   m_Name: KayKit Animated Character
   m_TagString: Untagged
@@ -1033,6 +1056,25 @@ Transform:
   m_Father: {fileID: 788670106710284499}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &5108245516529594305
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8269031904079850217}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: af4d1724b1c6389418a9ac1a63dabdf8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &9041152852344199129
 GameObject:
   m_ObjectHideFlags: 0
