@@ -148,6 +148,8 @@ public class playerMovement : MonoBehaviour
         _playerActiveSpeed = _playerRunSpeed;
         _playerAnim.SetFloat("speed", 1f, 0.1f, Time.deltaTime);
     }
+
+
     private void ApplyGravityToPlayer()
     { // subtract gravity to vertical velocity, use for y value of movementdirection vector3 (x,y,z)
         _verticalVelocity -= _gravity * Time.deltaTime;
@@ -156,6 +158,7 @@ public class playerMovement : MonoBehaviour
         // change the move direction y to a positive one when jumping 
 
         _movementDirection.y = _verticalVelocity * Time.deltaTime;
+
     }
 
 
@@ -187,7 +190,7 @@ public class playerMovement : MonoBehaviour
     {
         // set vertical velocity to playerJump value
         _verticalVelocity = _playerJump;
-        
+        _playerAnim.SetTrigger("jumpTrigger");
     }
 
 

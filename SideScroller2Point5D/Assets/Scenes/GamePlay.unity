@@ -1484,7 +1484,6 @@ GameObject:
   - component: {fileID: 958871470}
   - component: {fileID: 958871469}
   - component: {fileID: 958871468}
-  - component: {fileID: 958871467}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -1492,24 +1491,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &958871467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958871466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cab75423097ee404586e8ddf8b0114c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterController: {fileID: 0}
-  moveDirection: {x: 0, y: 0, z: 0}
-  speed: 5
-  gravity: 20
-  jumpForce: 10
-  verticalVelocity: 0
 --- !u!143 &958871468
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3282,29 +3263,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4099625167704403650, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_Height
-      value: 1.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4099625167704403650, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4099625167704403650, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_Center.y
-      value: 0.78
-      objectReference: {fileID: 0}
     - target: {fileID: 4099625167704403651, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4099625167704403652, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4099625167704403652, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_Center.y
-      value: 0.78
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5108245516529594305, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
+    - {fileID: 3757588199333370375, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
