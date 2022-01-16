@@ -26,6 +26,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private float _playerJump = 15f; // starting value for testing = 10. adjusted for snappiness
     // this is a visual check in inspector to confirm gravity is being applied
     [SerializeField] private float _verticalVelocity;
+    [SerializeField] private float _doubleJumpSpeed = 35f;
 
     // double jump bool - will allow one extra jump
     private bool hasDoubleJump = false;
@@ -94,10 +95,10 @@ public class playerMovement : MonoBehaviour
         // take input and make a new vector3, change coordinates to global, multiply by speed factor & time.deltatime
         _movementDirection = new Vector3(_playerFacingDirection, 0f, 0f);
         _movementDirection = transform.TransformDirection(_movementDirection); // change coordinates to global
-       
+
         // make if walk/run/idle
 
-        // _movementDirection *= _playerWalkSpeed * Time.deltaTime; // place below states
+        // _movementDirection *= _playerWalkSpeed * Time.deltaTime; // for testing. player speed is affected by and set in states below
 
         if (_characterController.isGrounded)
         {
@@ -130,7 +131,7 @@ public class playerMovement : MonoBehaviour
         _characterController.Move(_movementDirection);
     }
 
-    
+
     private void Idle()
     {
 
@@ -139,19 +140,23 @@ public class playerMovement : MonoBehaviour
 
     private void Walk()
     {
+
         _playerActiveSpeed = _playerWalkSpeed;
         _playerAnim.SetFloat("speed", 0.5f, 0.1f, Time.deltaTime);
     }
 
     private void Run()
     {
+
         _playerActiveSpeed = _playerRunSpeed;
         _playerAnim.SetFloat("speed", 1f, 0.1f, Time.deltaTime);
     }
 
 
     private void ApplyGravityToPlayer()
-    { // subtract gravity to vertical velocity, use for y value of movementdirection vector3 (x,y,z)
+    {
+
+        // subtract gravity to vertical velocity, use for y value of movementdirection vector3 (x,y,z)
         _verticalVelocity -= _gravity * Time.deltaTime;
         // if jumping, change vertical velocity to jump value
         SetPlayerJump();
@@ -177,12 +182,11 @@ public class playerMovement : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space) && hasDoubleJump == true)
         {
+
             // turn off double jump so not able to spam jumps
             hasDoubleJump = false;
-            ApplyPlayerJump();
+            ApplyPlayerDoubleJump();
 
-            // TO DO add vertical velocity multiplier here for a forward speed bump when double jumping. regular jump = _movement direction.x 
-            // double jump _movement direction.x = x2 movement speed
         }
     }
 
@@ -190,9 +194,25 @@ public class playerMovement : MonoBehaviour
     {
         // set vertical velocity to playerJump value
         _verticalVelocity = _playerJump;
+
         _playerAnim.SetTrigger("jumpTrigger");
     }
+    void ApplyPlayerDoubleJump()
+    { 
+        // increase values to make double jump snappier.
+        // starts cooldown with a gravity penalty for 2s
+        _verticalVelocity = _playerJump * 1.5f;
+        _playerActiveSpeed = _doubleJumpSpeed;
+        _gravity = 100f;
+        _playerAnim.SetTrigger("jumpTrigger");
+        StartCoroutine(CooldownToRestoreGravityAfterDoubleJump()); // prevents constant doublejumping at more dramatic result. Jumping will be nerfed with higher gravity for 2seconds.
+    }
 
+    IEnumerator CooldownToRestoreGravityAfterDoubleJump()
+    {
+        yield return new WaitForSeconds(2f);
+        _gravity = 50f;
+    }
 
+   
 }
-
