@@ -462,6 +462,7 @@ MonoBehaviour:
   _gravity: 50
   _playerJump: 14
   _verticalVelocity: 0
+  _doubleJumpSpeed: 35
   _playerAnimatedCharacterTF: {fileID: 788670106710284499}
 --- !u!1 &4592508730893133081
 GameObject:

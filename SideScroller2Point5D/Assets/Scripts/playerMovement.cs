@@ -142,14 +142,14 @@ public class playerMovement : MonoBehaviour
     {
 
         _playerActiveSpeed = _playerWalkSpeed;
-        _playerAnim.SetFloat("speed", 0.5f, 0.1f, Time.deltaTime);
+        _playerAnim.SetFloat("speed", 0.25f, 0.25f, Time.deltaTime);
     }
 
     private void Run()
     {
 
         _playerActiveSpeed = _playerRunSpeed;
-        _playerAnim.SetFloat("speed", 1f, 0.1f, Time.deltaTime);
+        _playerAnim.SetFloat("speed", 0.5f, 0.1f, Time.deltaTime);
     }
 
 
