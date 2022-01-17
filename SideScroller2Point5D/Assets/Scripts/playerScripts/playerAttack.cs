@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class playerAttack : MonoBehaviour
 {
-
+    private CharacterController _characterController;
     private Animator _playerAnim;
+
+    // for projectile attack
+    public GameObject projectile;
+    public Transform projectileAttackPoint;
 
     private void Awake()
     {
-        _playerAnim = GetComponentInChildren<Animator>();
+        _characterController = GetComponentInParent<CharacterController>();
+        _playerAnim = GetComponent<Animator>();
 
     }
     // Start is called before the first frame update
@@ -27,13 +32,26 @@ public class playerAttack : MonoBehaviour
 
     private void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (_characterController.isGrounded) // cannot attack initiate attack in air
         {
-            _playerAnim.SetTrigger("meleeTrigger");
+
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                _playerAnim.SetTrigger("meleeTrigger");
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                _playerAnim.SetTrigger("shootTrigger");
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            _playerAnim.SetTrigger("shootTrigger");
-        }
+    }
+
+    void ProjectileAttack()
+    {
+        Instantiate(projectile, projectileAttackPoint.position, Quaternion.identity);
+
+
+
+
     }
 }

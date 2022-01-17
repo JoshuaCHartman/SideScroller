@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+// 2.5D Controller.
 // Place script on the player object. In this instance, an empty gameObject called "Player" holds a child object that in turn
 // holds the rigged models, weapons, etc. Once applied, the player movement script will have several visible changeable variables 
 // and an empty spot to assign a local transform 
@@ -41,8 +42,6 @@ public class playerMovement : MonoBehaviour
     // local transform to flip the frame and model, NOT the parent player object
     [SerializeField] private Transform _playerAnimatedCharacterTF;
 
-
-
     private void Awake()
     {
         // references 
@@ -67,18 +66,39 @@ public class playerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // move (walk, run, jump)
+        // move (rotate to face correct direction, walk, run, jump, double jump, double jump cool down)
         MovePlayer();
 
         // attack (melee, projectile)
-        // attack script
+        // in attack script
     }
 
     
 
     void MovePlayer()
     {
+        //// assign input, and use to determine which direciton player is facing, and rotate accordingly
+      
+        RotatePlayerFacingDirectionBasedOnInput();
 
+        // make if walk/run/idle
+
+        // _movementDirection *= _playerWalkSpeed * Time.deltaTime; // for testing. player speed is affected by and set in states below
+
+       SetActiveMovementSpeedAndTriggerAnimations();
+
+        _movementDirection *= _playerActiveSpeed * Time.deltaTime;
+
+        // apply gravity. charactercontroller has no gravity component. test for jump input & if can double jump. jump. trigger double 
+        // jump cooldown coroutine
+        ApplyGravityToPlayerAndJump();
+
+        // apply vector to character controller to move player
+        _characterController.Move(_movementDirection);
+    }
+
+    void RotatePlayerFacingDirectionBasedOnInput()
+    {
         // assign input, and use to determine which direciton player is facing, and rotate accordingly
         _playerFacingDirection = Input.GetAxis("Horizontal"); // GetAxis returns values between -1 & 0 (left) or between 0 & 1 (right)
         if (_playerFacingDirection > 0)
@@ -98,11 +118,11 @@ public class playerMovement : MonoBehaviour
         // take input and make a new vector3, change coordinates to global, multiply by speed factor & time.deltatime
         _movementDirection = new Vector3(_playerFacingDirection, 0f, 0f);
         _movementDirection = transform.TransformDirection(_movementDirection); // change coordinates to global
+    }
 
-        // make if walk/run/idle
 
-        // _movementDirection *= _playerWalkSpeed * Time.deltaTime; // for testing. player speed is affected by and set in states below
-
+    void SetActiveMovementSpeedAndTriggerAnimations()
+    {
         if (_characterController.isGrounded)
         {
             if (_movementDirection == Vector3.zero)
@@ -124,53 +144,39 @@ public class playerMovement : MonoBehaviour
                 Run();
             }
         }
-
-        _movementDirection *= _playerActiveSpeed * Time.deltaTime;
-
-        // apply gravity. charactercontroller has no gravity component. test for jump.
-        ApplyGravityToPlayer();
-
-        // apply vector to character controller to move player
-        _characterController.Move(_movementDirection);
     }
-
 
     private void Idle()
     {
-
         _playerAnim.SetFloat("playerActiveSpeed", 0f, 0.1f, Time.deltaTime);
     }
 
     private void Walk()
     {
-
         _playerActiveSpeed = _playerWalkSpeed;
         _playerAnim.SetFloat("playerActiveSpeed", 0.5f, 0.25f, Time.deltaTime);
     }
 
     private void Run()
     {
-
         _playerActiveSpeed = _playerRunSpeed;
         _playerAnim.SetFloat("playerActiveSpeed", 1f, 0.1f, Time.deltaTime);
     }
 
-
-    private void ApplyGravityToPlayer()
+    private void ApplyGravityToPlayerAndJump()
     {
 
         // subtract gravity to vertical velocity, use for y value of movementdirection vector3 (x,y,z)
         _verticalVelocity -= _gravity * Time.deltaTime;
         // if jumping, change vertical velocity to jump value
-        SetPlayerJump();
+        CheckForInputForPlayerJump();
         // change the move direction y to a positive one when jumping 
 
         _movementDirection.y = _verticalVelocity * Time.deltaTime;
 
     }
 
-
-    void SetPlayerJump()
+    void CheckForInputForPlayerJump()
     {
         // check if ground & pressed spacebar, has double jump, apply playerJump value
 
@@ -200,6 +206,7 @@ public class playerMovement : MonoBehaviour
 
         _playerAnim.SetTrigger("jumpTrigger");
     }
+
     void ApplyPlayerDoubleJump()
     { 
         // increase values to make double jump snappier.
@@ -217,5 +224,4 @@ public class playerMovement : MonoBehaviour
         _gravity = 50f;
     }
 
-   
 }
