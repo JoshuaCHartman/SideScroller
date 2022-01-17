@@ -135,21 +135,21 @@ public class playerMovement : MonoBehaviour
     private void Idle()
     {
 
-        _playerAnim.SetFloat("speed", 0f, 0.1f, Time.deltaTime);
+        _playerAnim.SetFloat("playerActiveSpeed", 0f, 0.1f, Time.deltaTime);
     }
 
     private void Walk()
     {
 
         _playerActiveSpeed = _playerWalkSpeed;
-        _playerAnim.SetFloat("speed", 0.25f, 0.25f, Time.deltaTime);
+        _playerAnim.SetFloat("playerActiveSpeed", 0.5f, 0.25f, Time.deltaTime);
     }
 
     private void Run()
     {
 
         _playerActiveSpeed = _playerRunSpeed;
-        _playerAnim.SetFloat("speed", 0.5f, 0.1f, Time.deltaTime);
+        _playerAnim.SetFloat("playerActiveSpeed", 1f, 0.1f, Time.deltaTime);
     }
 
 
