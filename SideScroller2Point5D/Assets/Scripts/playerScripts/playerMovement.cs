@@ -50,7 +50,7 @@ public class playerMovement : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _playerAnim = GetComponentInChildren<Animator>(); // animator is attached to child component holding models
     }
-    private void FixedUpdate()
+    private void FixedUpdate() // physics, end of frame
     {
         // if player is not on 0z, change xz value to 0
 
@@ -71,7 +71,10 @@ public class playerMovement : MonoBehaviour
         MovePlayer();
 
         // attack (melee, projectile)
+        // attack script
     }
+
+    
 
     void MovePlayer()
     {
