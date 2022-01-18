@@ -42,6 +42,11 @@ public class playerAttack : MonoBehaviour
 
     private void Attack()
     {
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            _playerAnim.SetTrigger("shootTrigger");
+        }
+
         if (_characterController.isGrounded) // cannot attack initiate attack in air
         {
 
@@ -49,10 +54,7 @@ public class playerAttack : MonoBehaviour
             {
                 _playerAnim.SetTrigger("meleeTrigger");
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                _playerAnim.SetTrigger("shootTrigger");
-            }
+            
         }
     }
 
