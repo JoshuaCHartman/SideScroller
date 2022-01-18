@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6449937088593663342}
   - component: {fileID: 2932191325018208325}
   - component: {fileID: -5797612189800145655}
+  - component: {fileID: 8557470707754224275}
   m_Layer: 0
   m_Name: ProjectileElectric
   m_TagString: Untagged
@@ -94,7 +95,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4412993612903079627}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -128,6 +129,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifespan: 2
+--- !u!114 &8557470707754224275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4412993612903079627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e507ab8653f1645bd69f90c7d98d60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageEffect: {fileID: 100002, guid: 75369bb81385f4904842bf20a51c14a2, type: 3}
 --- !u!1001 &616069431373166728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,6 +200,14 @@ PrefabInstance:
     - target: {fileID: 400006, guid: bcf46e46336114145b09deb1db11d480, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: bcf46e46336114145b09deb1db11d480, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: bcf46e46336114145b09deb1db11d480, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].time
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcf46e46336114145b09deb1db11d480, type: 3}
