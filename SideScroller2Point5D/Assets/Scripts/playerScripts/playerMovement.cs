@@ -224,4 +224,20 @@ public class playerMovement : MonoBehaviour
         _gravity = 50f;
     }
 
+
+    // helper scripts
+
+    public float GetPlayerDirection() // return a - or + value float to indicate player facing direction ONLY WHEN MOVING
+        // negative = left
+        // positive = right
+    {
+        float playerDirection;
+
+        // assign input, and use to determine which direciton player is facing, and rotate accordingly
+        _playerFacingDirection = Input.GetAxis("Horizontal"); // GetAxis returns values between -1 & 0 (left) or between 0 & 1 (right)
+        playerDirection = _playerFacingDirection;
+        return playerDirection;
+
+    }
+
 }
