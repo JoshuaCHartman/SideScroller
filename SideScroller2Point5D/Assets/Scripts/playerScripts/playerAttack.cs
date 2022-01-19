@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CodeMonkey.Utils;
 
 public class playerAttack : MonoBehaviour
 {
     private CharacterController _characterController;
     private Animator _playerAnim;
-    private playerMovement _playerMovement;
+    //private playerMovement _playerMovement;
 
     // to determine facing direction 
     [SerializeField] private GameObject _face;
@@ -19,6 +20,13 @@ public class playerAttack : MonoBehaviour
     [SerializeField] private Transform _projectileRightAttackPoint;
     [SerializeField] private float _projectileSpeed = 1500;
 
+    // for melee attack
+    [SerializeField] private Transform _meleeAttackPoint;
+    [SerializeField] private LayerMask _npcLayers; // melee will only apply to objects on that layer
+   // [SerializeField] private LayerMask _enemyLayers; 
+    [SerializeField] private float _meleeAttackRange = 0.5f; // radius of attackpoint sphere for detection
+    [SerializeField] private int _attackDamage = 50;
+    [SerializeField] private float _meleePhysicsForce = 1000;
    
 
     //private GameObject launchedProjectile;
@@ -42,6 +50,8 @@ public class playerAttack : MonoBehaviour
 
     private void Attack()
     {
+        // projectile
+
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             _playerAnim.SetTrigger("shootTrigger");
@@ -52,13 +62,37 @@ public class playerAttack : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
+                // animation
                 _playerAnim.SetTrigger("meleeTrigger");
+
+                //detect enemies
+                Collider[] hitNpc = Physics.OverlapSphere(_meleeAttackPoint.position, _meleeAttackRange, _npcLayers);
+
+                //apply damage
+                foreach (Collider npc in hitNpc)
+                {
+                    Debug.Log("HIT" + npc.name);
+                   //Rigidbody npcBody = npc.GetComponent<Rigidbody>();
+                    npc.GetComponent<NPCHealth>().ApplyDamage(_attackDamage);
+                   //npcBody.AddRelativeTorque(-transform.forward * _meleePhysicsForce) ;
+                }
             }
             
         }
     }
 
-    void ProjectileAttack()
+    private void OnDrawGizmosSelected()
+    {
+        if (_meleeAttackPoint == null)
+        {
+            return; // prevents errors if no attack point assigned
+        }
+
+        Gizmos.DrawWireSphere(_meleeAttackPoint.position, _meleeAttackRange);
+    }
+
+    // Projectile Attack TRIGGERED by ANIMATION EVENT (Animator window : projectile animation). 
+    void ProjectileAttack() 
     {
         // if facing left, fire left projectile
 

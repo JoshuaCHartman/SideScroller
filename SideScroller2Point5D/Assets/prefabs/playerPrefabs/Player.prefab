@@ -54,12 +54,73 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679524863}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.143, y: 1.274, z: 0.099}
+  m_LocalPosition: {x: -0.017, y: 0.896, z: -0.003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3724226144824548817}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1966325910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1966325911}
+  - component: {fileID: 1966325913}
+  - component: {fileID: 1966325912}
+  m_Layer: 0
+  m_Name: RigidHitEdge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1966325911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966325910}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.005, y: 0.883, z: -0.001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3724226144824548817}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1966325913
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966325910}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &1966325912
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966325910}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5185953, y: 0.9999999, z: 0.48692822}
+  m_Center: {x: -0.08042827, y: -0.000000037630706, z: -0.0018568379}
 --- !u!1 &124477790310351465
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +194,11 @@ MonoBehaviour:
   _projectileLeftAttackPoint: {fileID: 399389877}
   _projectileRightAttackPoint: {fileID: 1032899834083139599}
   _projectileSpeed: 3000
+  _meleeAttackPoint: {fileID: 1679524864}
+  _meleeAttackRange: 0.7
+  _npcLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1257115764037058266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,8 +1579,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.27117637, y: 1.2479, z: 0.20379941}
-  m_Center: {x: -0.03013855, y: 0.7683158, z: 0.009728729}
+  m_Size: {x: 0.27155152, y: 1.2193996, z: 0.20477986}
+  m_Center: {x: -0.030321753, y: 0.7540667, z: -0.011180644}
 --- !u!1001 &3757588201199972657
 PrefabInstance:
   m_ObjectHideFlags: 0
