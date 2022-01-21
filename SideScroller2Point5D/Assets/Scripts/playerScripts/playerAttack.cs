@@ -72,9 +72,9 @@ public class playerAttack : MonoBehaviour
                 foreach (Collider npc in hitNpc)
                 {
                     Debug.Log("HIT" + npc.name);
-                   //Rigidbody npcBody = npc.GetComponent<Rigidbody>();
+                   Rigidbody npcBody = npc.GetComponent<Rigidbody>();
                     npc.GetComponent<NPCHealth>().ApplyDamage(_attackDamage);
-                   //npcBody.AddRelativeTorque(-transform.forward * _meleePhysicsForce) ;
+                    npcBody.AddForce(500, 500, 0);
                 }
             }
             

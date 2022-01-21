@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1335971517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1335971518}
+  m_Layer: 0
+  m_Name: meleeAttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1335971518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335971517}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1488799456456865712}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &265760389673156828
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,6 +625,7 @@ GameObject:
   - component: {fileID: 3203468025951943082}
   - component: {fileID: 3203468025951943080}
   - component: {fileID: 3203468025951943081}
+  - component: {fileID: 3203468025951943076}
   m_Layer: 8
   m_Name: Barbarian
   m_TagString: Enemy
@@ -671,7 +702,7 @@ Animator:
   m_GameObject: {fileID: 7866243791209642480}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: da0ba503403db6a48a692814f165376b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9ed371b87a3e18445a54e6aca9668db1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -718,6 +749,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81855598cc32844b84b3236d98489b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyState: 0
+  walkSpeed: 6
+  runSpeed: 12
+  chaseDistance: 20
+  attackDistance: 1.8
+  chaseAfterAttackDistance: 2
+  patrolRadiusMin: 5
+  patrolRadiusMax: 20
+  stateTime: 15
+  waitBeforAttack: 0
+  meleeAttackPoint: {fileID: 1335971517}
+--- !u!195 &3203468025951943076
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7866243791209642480}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8518554034858246976
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,6 +925,7 @@ Transform:
   m_LocalScale: {x: 0.99999994, y: 1, z: 0.99999994}
   m_Children:
   - {fileID: 2481969553695387948}
+  - {fileID: 1335971518}
   m_Father: {fileID: 2589906611744589876}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

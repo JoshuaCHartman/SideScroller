@@ -13,6 +13,7 @@ public class MagicProjectile : MonoBehaviour
         {
             Instantiate(_damageEffect, transform.position, _damageEffect.transform.rotation);
             Destroy(gameObject);
+            
         }
     }
 }
