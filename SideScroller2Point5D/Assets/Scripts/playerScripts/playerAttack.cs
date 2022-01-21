@@ -74,7 +74,8 @@ public class playerAttack : MonoBehaviour
                     Debug.Log("HIT" + npc.name);
                    Rigidbody npcBody = npc.GetComponent<Rigidbody>();
                     npc.GetComponent<NPCHealth>().ApplyDamage(_attackDamage);
-                    npcBody.AddForce(500, 500, 0);
+                    // npcBody.AddExplosionForce(500, transform.position, 5);
+                    npcBody.AddForce(transform.forward, ForceMode.Impulse);
                 }
             }
             
