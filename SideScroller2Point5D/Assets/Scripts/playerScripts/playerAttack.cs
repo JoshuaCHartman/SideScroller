@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using UnityEngine.AI;
 
 public class playerAttack : MonoBehaviour
 {
@@ -75,7 +76,14 @@ public class playerAttack : MonoBehaviour
                    Rigidbody npcBody = npc.GetComponent<Rigidbody>();
                     npc.GetComponent<NPCHealth>().ApplyDamage(_attackDamage);
                     // npcBody.AddExplosionForce(500, transform.position, 5);
-                    npcBody.AddForce(transform.forward, ForceMode.Impulse);
+                    //npcBody.AddForce(transform.forward, ForceMode.Impulse);
+                   // npc.GetComponent<NavMeshAgent>().isStopped=true;
+                    npcBody.AddForce(500, 0, 0);
+                    //Vector3 up = new Vector3(0, 500, 0);
+                    
+                    //npcBody.AddRelativeForce(up, ForceMode.Impulse);
+                    
+
                 }
             }
             
