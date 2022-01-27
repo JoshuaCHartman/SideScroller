@@ -6,18 +6,22 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 // ENUM
-public enum NpcState { IDLE, PATROL, CHASE, ATTACK, FLEE }
+public enum NpcState { SUSPEND_STATE, IDLE, PATROL, CHASE, ATTACK, FLEE }
 
 public class EnemyController : MonoBehaviour
 {
     public NpcState NpcState { get; set; }
 
-    [SerializeField] Vector3  patrolTarget;
+    [SerializeField] Vector3 patrolTarget;
     [SerializeField] private Vector3 _randomDestination;
 
     private EnemyAnimator _enemyAnimator; // EnemyAnimator script - with instructions to activate animation controller / trigger animations
     private NavMeshAgent _navAgent;
-    [SerializeField] private NpcState _enemyState; // serialized to check state in inspector
+    private Rigidbody _enemyRigidbody; // for usa in physics
+
+
+    /*[SerializeField] private NpcState _enemyState;*/ // serialized to check state in inspector
+    public NpcState _enemyState;
 
     // private float _idleSpeed = 0; // changed to vector3 velocity.zero
     public float walkSpeed = 6f;
@@ -48,31 +52,25 @@ public class EnemyController : MonoBehaviour
     // variables to check if player off 0Z and set to 0Z
     private Vector3 _tempPos;
 
+    private playerAttack playerAttackForPhysics;
+
 
     private void Awake()
     {
         // get references - animator, navagent, player transform.position,
         _enemyAnimator = GetComponent<EnemyAnimator>();
+       
         _navAgent = GetComponent<NavMeshAgent>();
+
+        _enemyRigidbody = GetComponent<Rigidbody>();
 
         _targetTF = GameObject.FindWithTag(Tags.PLAYER_TAG).transform;
 
     }
     private void FixedUpdate() // physics, end of frame
     {
-        // if player is greater than  1 or less than -1 on z axis, change z value to 0
-
-        //ConfineNPCMovementToAroundZedAxis();
-
-        _tempPos = transform.position;
-
-        if (transform.position.z != 0)
-        {
-            _tempPos.z = 0;
-        }
-
-        transform.position = _tempPos;
-
+        // if player z axis is greater than  1 or less than -1 change z value to 0
+        ConfineNPCMovementToAroundZedAxis();
     }
 
 
@@ -86,15 +84,17 @@ public class EnemyController : MonoBehaviour
         _currentChaseDistance = chaseDistance;
 
 
-
-
-
     }
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         // if tree with enums for state 
+        if (_enemyState == NpcState.SUSPEND_STATE)
+        {
+            SuspendStateForPhysics();
+        }
+        
         //if (_enemyState == NpcState.IDLE)
         //{
         //    Idle();
@@ -112,6 +112,12 @@ public class EnemyController : MonoBehaviour
             Attack();
         }
 
+    }
+
+    private void SuspendStateForPhysics()
+    {
+        // _navAgent.enabled = false;
+        _enemyAnimator.LaunchedInAir();
     }
 
 
@@ -152,6 +158,7 @@ public class EnemyController : MonoBehaviour
     private void Patrol()
     {
         // start moving - turn on navmeshagent @ walk speed
+
         _navAgent.isStopped = (false);
         _navAgent.speed = walkSpeed;
 
@@ -195,7 +202,7 @@ public class EnemyController : MonoBehaviour
     {
         // start moving - turn on navmeshagent @ walk speed
         _navAgent.isStopped = (true);
-       // _navAgent.speed = walkSpeed;
+        // _navAgent.speed = walkSpeed;
 
         // set timer for amount of time to patrol
         _stateTimer += Time.deltaTime;
@@ -211,8 +218,8 @@ public class EnemyController : MonoBehaviour
             // set new target position as the randomx, with self y, 0z
             patrolTarget = new Vector3(patrolRandomX, transform.position.y, 0);
 
-           // var patrolPath = Vector3.MoveTowards(transform.position, patrolTarget, 0);
-            
+            // var patrolPath = Vector3.MoveTowards(transform.position, patrolTarget, 0);
+
             //_navAgent.SetDestination(patrolPath);
             transform.position = patrolTarget * walkSpeed * Time.deltaTime;
             // reset patrol timer
@@ -220,9 +227,9 @@ public class EnemyController : MonoBehaviour
         }
 
         // walk (for timer amount)
-        
-          _enemyAnimator.Walk(true);
-        
+
+        _enemyAnimator.Walk(true);
+
 
         // test: if (enemy position - player position) <= chase distance, then chase (turn off walk anim, turn on chase STATE)
         if (Vector3.Distance(transform.position, _targetTF.position) <= chaseDistance)
@@ -279,6 +286,7 @@ public class EnemyController : MonoBehaviour
     private void Chase()
     {
         // turn on & set speed to run
+
         _navAgent.isStopped = false;
         _navAgent.speed = runSpeed;
 
@@ -296,12 +304,12 @@ public class EnemyController : MonoBehaviour
         }
 
         // check distance between enemy & player for melee attack
-        if (Vector3.Distance(transform.position, _targetTF.position) <= attackDistance)
+        if (Vector3.Distance(transform.position, _targetTF.position) - .6f <= attackDistance)
         {
             // if within distance, stop run/walk & change state to attack
             _enemyAnimator.Walk(false);
             _enemyAnimator.Run(false);
-           // _enemyAnimator.Idle(false);
+            // _enemyAnimator.Idle(false);
             _enemyState = NpcState.ATTACK;
 
             // reset chase distance to stored value
@@ -378,6 +386,6 @@ public class EnemyController : MonoBehaviour
 
         transform.position = _tempPos;
     }
-    
+
 }
 

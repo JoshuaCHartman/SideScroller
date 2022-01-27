@@ -8,7 +8,7 @@ public class EnemyAnimator : MonoBehaviour
     private void Awake()
     {
         _enemyAnimator = GetComponentInChildren<Animator>();
-        //_enemyAnimator = GetComponent<Animator>();
+        
     }
 
     // idle / bool
@@ -48,6 +48,11 @@ public class EnemyAnimator : MonoBehaviour
     public void NpcDeath()
     {
         _enemyAnimator.SetTrigger("Death");
+    }
+
+    public void LaunchedInAir()
+    {
+        _enemyAnimator.SetTrigger("LaunchedInAir");
     }
 
 

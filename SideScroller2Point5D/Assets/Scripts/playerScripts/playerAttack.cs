@@ -24,13 +24,20 @@ public class playerAttack : MonoBehaviour
     // for melee attack
     [SerializeField] private Transform _meleeAttackPoint;
     [SerializeField] private LayerMask _npcLayers; // melee will only apply to objects on that layer
-   // [SerializeField] private LayerMask _enemyLayers; 
+                                                   // [SerializeField] private LayerMask _enemyLayers; 
     [SerializeField] private float _meleeAttackRange = 0.5f; // radius of attackpoint sphere for detection
     [SerializeField] private int _attackDamage = 50;
-    [SerializeField] private float _meleePhysicsForce = 1000;
-   
 
-    //private GameObject launchedProjectile;
+    // for physics
+    private bool isHit = false; // for use to determine application of physics, & turning off navmeshagent & kinematic
+    public bool hasEnemyCollisionOccured = false; // for use to determine when stop moving after physics applied, & turn above back on
+    private Rigidbody _npcBody;
+    private NavMeshAgent _npcNavMeshAgent;
+    //private NpcState _npcState { get; set; }
+    //private NpcState _previousNpcState;
+    private EnemyController _npcController;
+
+
     private void Awake()
     {
         _characterController = GetComponentInParent<CharacterController>();
@@ -40,13 +47,18 @@ public class playerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Attack(); 
+        Attack();
+    }
+
+    private void FixedUpdate()
+    {
+        ApplyPhysics();
     }
 
     private void Attack()
@@ -69,25 +81,65 @@ public class playerAttack : MonoBehaviour
                 //detect enemies
                 Collider[] hitNpc = Physics.OverlapSphere(_meleeAttackPoint.position, _meleeAttackRange, _npcLayers);
 
-                //apply damage
+                //apply damage & physics
                 foreach (Collider npc in hitNpc)
                 {
+                    // console log a hit of the target
                     Debug.Log("HIT" + npc.name);
-                   Rigidbody npcBody = npc.GetComponent<Rigidbody>();
+
+                    // access components for application of physics
+                    _npcBody = npc.GetComponent<Rigidbody>();
+                    _npcNavMeshAgent = npc.GetComponent<NavMeshAgent>();
+
+
+                    // change state when hit
+                    _npcController = npc.GetComponent<EnemyController>();
+                    _npcController._enemyState = NpcState.SUSPEND_STATE;
+                   
+                    // apply damage
                     npc.GetComponent<NPCHealth>().ApplyDamage(_attackDamage);
-                    // npcBody.AddExplosionForce(500, transform.position, 5);
-                    //npcBody.AddForce(transform.forward, ForceMode.Impulse);
-                   // npc.GetComponent<NavMeshAgent>().isStopped=true;
-                    npcBody.AddForce(500, 0, 0);
-                    //Vector3 up = new Vector3(0, 500, 0);
-                    
-                    //npcBody.AddRelativeForce(up, ForceMode.Impulse);
-                    
+
+                    // physics switches :
+                    isHit = true;
+                    hasEnemyCollisionOccured = true;
 
                 }
             }
-            
+
         }
+    }
+
+    private void ApplyPhysics()
+    {
+
+
+        if (isHit)
+        {
+            // turn off everything when hit
+            _npcNavMeshAgent.enabled = false;
+            _npcBody.isKinematic = false;
+
+            // apply physics
+            _npcBody.AddForce(500, 500, 0, ForceMode.Force);
+
+            // switch
+            isHit = false;
+        }
+        else if (hasEnemyCollisionOccured)
+        {
+            // determine velocity - use as means of determining when not moving from physics
+            float enemyVelocity = _npcBody.velocity.magnitude;
+
+            if (enemyVelocity < 0.5f)
+            {
+                // reset everything when stopped
+                hasEnemyCollisionOccured = false;
+                _npcNavMeshAgent.enabled = true;
+                _npcBody.isKinematic = true;
+                _npcController._enemyState = NpcState.PATROL;
+            }
+        }
+
     }
 
     private void OnDrawGizmosSelected()
@@ -101,28 +153,28 @@ public class playerAttack : MonoBehaviour
     }
 
     // Projectile Attack TRIGGERED by ANIMATION EVENT (Animator window : projectile animation). 
-    void ProjectileAttack() 
+    void ProjectileAttack()
     {
         // if facing left, fire left projectile
 
-       // _playerMovement = GetComponentInParent<playerMovement>();
-       // float playerDirection = _playerMovement.GetPlayerDirection(); // returns -/+ value indicating L/R facing direction
+        // _playerMovement = GetComponentInParent<playerMovement>();
+        // float playerDirection = _playerMovement.GetPlayerDirection(); // returns -/+ value indicating L/R facing direction
 
         //GameObject launchedProjectile = new GameObject;
-        
+
         if (_face.transform.position.x < _backOfHead.transform.position.x)
         {
             FireToTheLeft();
         }
 
-        if(_face.transform.position.x > _backOfHead.transform.position.x)
+        if (_face.transform.position.x > _backOfHead.transform.position.x)
         {
             FireToTheRight();
         }
         //GameObject launchedProjectile = Instantiate(_projectileFireLeft, _projectileAttackPoint.position, Quaternion.identity);
         //launchedProjectile.GetComponent<Rigidbody>().AddForce(_projectileAttackPoint.forward * _projectileSpeed);
 
-      
+
 
     }
 

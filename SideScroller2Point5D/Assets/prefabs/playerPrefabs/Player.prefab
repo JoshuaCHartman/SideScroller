@@ -200,7 +200,7 @@ MonoBehaviour:
     m_Bits: 256
   _meleeAttackRange: 0.7
   _attackDamage: 50
-  _meleePhysicsForce: 100
+  hasEnemyCollisionOccured: 0
 --- !u!1 &1257115764037058266
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,6 +599,7 @@ GameObject:
   - component: {fileID: 4099625167704403650}
   - component: {fileID: 4099625167704403652}
   - component: {fileID: 4099625167704403654}
+  - component: {fileID: 606680164}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -674,6 +675,22 @@ MonoBehaviour:
   _verticalVelocity: 0
   _doubleJumpSpeed: 35
   _playerAnimatedCharacterTF: {fileID: 788670106710284499}
+--- !u!54 &606680164
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099625167704403651}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 120
+  m_CollisionDetection: 0
 --- !u!1 &4592508730893133081
 GameObject:
   m_ObjectHideFlags: 0
