@@ -25,7 +25,7 @@ public class playerAttack : MonoBehaviour
     [SerializeField] private Transform _meleeAttackPoint;
     [SerializeField] private LayerMask _npcLayers; // melee will only apply to objects on that layer
                                                    // [SerializeField] private LayerMask _enemyLayers; 
-    [SerializeField] private float _meleeAttackRange = 0.5f; // radius of attackpoint sphere for detection
+    [SerializeField] private float _meleeAttackRange = 1f; // radius of attackpoint sphere for detection
     [SerializeField] private int _attackDamage = 50;
 
     // for physics
@@ -56,10 +56,10 @@ public class playerAttack : MonoBehaviour
         Attack();
     }
 
-    private void FixedUpdate()
-    {
-        ApplyPhysics();
-    }
+    //private void FixedUpdate()
+    //{
+    //    ApplyPhysics();
+    //}
 
     private void Attack()
     {
@@ -88,20 +88,26 @@ public class playerAttack : MonoBehaviour
                     Debug.Log("HIT" + npc.name);
 
                     // access components for application of physics
-                    _npcBody = npc.GetComponent<Rigidbody>();
-                    _npcNavMeshAgent = npc.GetComponent<NavMeshAgent>();
 
+                    //_npcBody = npc.GetComponent<Rigidbody>();
+                    //_npcNavMeshAgent = npc.GetComponent<NavMeshAgent>();
 
-                    // change state when hit
-                    _npcController = npc.GetComponent<EnemyController>();
-                    _npcController._enemyState = NpcState.SUSPEND_STATE;
-                   
                     // apply damage
                     npc.GetComponent<NPCHealth>().ApplyDamage(_attackDamage);
 
+                    // if health <=0, apply physics
+
+                    // change state when hit
+
+                    //_npcController = npc.GetComponent<EnemyController>();
+                    //_npcController._enemyState = NpcState.SUSPEND_STATE;
+                   
+                   
+
                     // physics switches :
-                    isHit = true;
-                    hasEnemyCollisionOccured = true;
+
+                    //isHit = true;
+                    //hasEnemyCollisionOccured = true;
 
                 }
             }
@@ -132,13 +138,29 @@ public class playerAttack : MonoBehaviour
 
             if (enemyVelocity < 0.5f)
             {
+                _npcController._enemyAnimator.NpcDeath();
+                //_npcController._enemyState = NpcState.RESET_AFTER_PHYSICS;
+                
+                StartCoroutine(CoolDownWhenEnemyKnockedDown());
                 // reset everything when stopped
-                hasEnemyCollisionOccured = false;
-                _npcNavMeshAgent.enabled = true;
-                _npcBody.isKinematic = true;
-                _npcController._enemyState = NpcState.PATROL;
+                //hasEnemyCollisionOccured = false;
+                //_npcNavMeshAgent.enabled = true;
+                //_npcBody.isKinematic = true;
+                
+                //_npcController._enemyState = NpcState.PATROL;
             }
         }
+
+    }
+
+   IEnumerator CoolDownWhenEnemyKnockedDown()
+    {
+
+        yield return new WaitForSeconds(5f);
+        hasEnemyCollisionOccured = false;
+        _npcNavMeshAgent.enabled = true;
+        _npcBody.isKinematic = true;
+        _npcController._enemyState = NpcState.PATROL;
 
     }
 

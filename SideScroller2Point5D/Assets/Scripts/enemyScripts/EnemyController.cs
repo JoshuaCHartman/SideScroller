@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 // ENUM
-public enum NpcState { SUSPEND_STATE, IDLE, PATROL, CHASE, ATTACK, FLEE }
+public enum NpcState { SUSPEND_STATE, RESET_AFTER_PHYSICS, IDLE, PATROL, CHASE, ATTACK, FLEE }
 
 public class EnemyController : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] Vector3 patrolTarget;
     [SerializeField] private Vector3 _randomDestination;
 
-    private EnemyAnimator _enemyAnimator; // EnemyAnimator script - with instructions to activate animation controller / trigger animations
+    public EnemyAnimator _enemyAnimator; // EnemyAnimator script - with instructions to activate animation controller / trigger animations
     private NavMeshAgent _navAgent;
     private Rigidbody _enemyRigidbody; // for usa in physics
 
@@ -94,6 +94,11 @@ public class EnemyController : MonoBehaviour
         {
             SuspendStateForPhysics();
         }
+
+        if (_enemyState == NpcState.RESET_AFTER_PHYSICS)
+        {
+            KnockbackGetUp();
+        }
         
         //if (_enemyState == NpcState.IDLE)
         //{
@@ -111,6 +116,22 @@ public class EnemyController : MonoBehaviour
         {
             Attack();
         }
+
+    }
+
+    private void KnockbackGetUp()
+    {
+        _enemyAnimator.NpcDeath();
+        StartCoroutine(CoolDownWhenEnemyKnockedDown());
+
+    }
+    IEnumerator CoolDownWhenEnemyKnockedDown()
+    {
+        yield return new WaitForSeconds(4f);
+        //hasEnemyCollisionOccured = false;
+        //_npcNavMeshAgent.enabled = true;
+        //_npcBody.isKinematic = true;
+        //_npcController._enemyState = NpcState.PATROL;
 
     }
 

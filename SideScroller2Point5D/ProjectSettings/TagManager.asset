@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FxTemporaire
   - Enemy
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -17,10 +18,10 @@ TagManager:
   - Ground
   - NPCs
   - Enemies
-  - 
-  - 
-  - 
-  - 
+  - Mysterious Staff
+  - Scaffolding
+  - Watchtower
+  - Windmill
   - 
   - 
   - 
