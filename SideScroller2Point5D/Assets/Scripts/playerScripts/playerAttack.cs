@@ -22,11 +22,16 @@ public class playerAttack : MonoBehaviour
     [SerializeField] private float _projectileSpeed = 1500;
 
     // for melee attack
-    [SerializeField] private Transform _meleeAttackPoint;
+    [SerializeField] private GameObject _meleeAttackPoint; // turn on / off
     [SerializeField] private LayerMask _npcLayers; // melee will only apply to objects on that layer
                                                    // [SerializeField] private LayerMask _enemyLayers; 
     [SerializeField] private float _meleeAttackRange = 1f; // radius of attackpoint sphere for detection
     [SerializeField] private int _attackDamage = 50;
+
+    public GameObject FinishingPowerUpMeleeAttack;
+
+    // for enemy health stae
+    private NPCHealth _npcHealth;
 
     // for physics
     private bool isHit = false; // for use to determine application of physics, & turning off navmeshagent & kinematic
@@ -79,7 +84,7 @@ public class playerAttack : MonoBehaviour
                 _playerAnim.SetTrigger("meleeTrigger");
 
                 //detect enemies
-                Collider[] hitNpc = Physics.OverlapSphere(_meleeAttackPoint.position, _meleeAttackRange, _npcLayers);
+                Collider[] hitNpc = Physics.OverlapSphere(_meleeAttackPoint.transform.position, _meleeAttackRange, _npcLayers);
 
                 //apply damage & physics
                 foreach (Collider npc in hitNpc)
@@ -87,13 +92,30 @@ public class playerAttack : MonoBehaviour
                     // console log a hit of the target
                     Debug.Log("HIT" + npc.name);
 
+
+                    _npcHealth = npc.GetComponent<NPCHealth>();
+                    _npcHealth.ApplyDamage(_attackDamage);
+
+                    var npcHealth = _npcHealth.CurrentNpcHealth();
+
+                    if (npcHealth >0 && npcHealth <= 50)
+                    {
+                        TurnOnFinishingMeleeFx();
+                    }
+                    if (npcHealth <= 0)
+                    {
+                        TurnOffFinishingMeleeFx();
+                    }
+                    
+
+
+                    // MOVED BELOW TO HEALTH / DAMAGE SCRIPT
                     // access components for application of physics
 
                     //_npcBody = npc.GetComponent<Rigidbody>();
                     //_npcNavMeshAgent = npc.GetComponent<NavMeshAgent>();
 
                     // apply damage
-                    npc.GetComponent<NPCHealth>().ApplyDamage(_attackDamage);
 
                     // if health <=0, apply physics
 
@@ -101,8 +123,8 @@ public class playerAttack : MonoBehaviour
 
                     //_npcController = npc.GetComponent<EnemyController>();
                     //_npcController._enemyState = NpcState.SUSPEND_STATE;
-                   
-                   
+
+
 
                     // physics switches :
 
@@ -171,7 +193,7 @@ public class playerAttack : MonoBehaviour
             return; // prevents errors if no attack point assigned
         }
 
-        Gizmos.DrawWireSphere(_meleeAttackPoint.position, _meleeAttackRange);
+        Gizmos.DrawWireSphere(_meleeAttackPoint.transform.position, _meleeAttackRange);
     }
 
     // Projectile Attack TRIGGERED by ANIMATION EVENT (Animator window : projectile animation). 
@@ -210,5 +232,30 @@ public class playerAttack : MonoBehaviour
     {
         GameObject launchedProjectile = Instantiate(_projectile, _projectileRightAttackPoint.position, Quaternion.identity);
         launchedProjectile.GetComponent<Rigidbody>().AddForce(_projectileRightAttackPoint.forward * _projectileSpeed);
+    }
+
+    // use the following as animation events for melee attack - prevents multi hit in one swing
+    public void TurnOnMeleeAttackPoint()
+    {
+        _meleeAttackPoint.SetActive(true);
+    }
+    public void TurnOffMeleeAttackPoint()
+    {
+        if (_meleeAttackPoint.activeInHierarchy)
+        {
+            _meleeAttackPoint.SetActive(false);
+        }
+    }
+
+    public void TurnOnFinishingMeleeFx()
+    {
+        FinishingPowerUpMeleeAttack.SetActive(true);
+    }
+    public void TurnOffFinishingMeleeFx()
+    {
+        if (FinishingPowerUpMeleeAttack.activeInHierarchy)
+        {
+            FinishingPowerUpMeleeAttack.SetActive(false);
+        }
     }
 }

@@ -45,6 +45,8 @@ public class NPCHealth : MonoBehaviour
     {
         _currentHealth -= damageReceived;
 
+
+
         // Struck/wound animation
 
         if (_currentHealth <=0)
@@ -120,17 +122,24 @@ public class NPCHealth : MonoBehaviour
         //_npcAnim.NpcDeath();
         Debug.Log("Coroutine");
         //_catchOnFire = Instantiate(_fireEffect, transform.position, _fireEffect.transform.rotation );
-        hasEnemyCollisionOccured = false;
-        _npcNavMeshAgent.enabled = true;
-        _npcBody.isKinematic = true;
 
-        _npcController._enemyState = NpcState.PATROL;
+       // no need to turn back on since is finishing move
+        //hasEnemyCollisionOccured = false;
+        //_npcNavMeshAgent.enabled = true;
+        //_npcBody.isKinematic = true;
+
+        //_npcController._enemyState = NpcState.PATROL;
         
         var _catchOnFire2 = Instantiate(_fireEffect2, transform.position, _fireEffect.transform.rotation);
         
         Destroy(gameObject);
         
-        GameObject.Destroy(_catchOnFire2, 4);
+        GameObject.Destroy(_catchOnFire2, 4); // destroy particles after waiting 4
         
+    }
+
+    public int CurrentNpcHealth()
+    {
+        return _currentHealth;
     }
 }
