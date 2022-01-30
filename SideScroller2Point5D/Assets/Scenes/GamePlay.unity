@@ -28685,7 +28685,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1825720629965468443}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 1.8
   m_Direction: 1
@@ -28804,18 +28804,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1679524864, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1679524864, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1679524864, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3724226143389611129, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -28859,10 +28847,6 @@ PrefabInstance:
     - target: {fileID: 3724226143389611129, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4099625167704403650, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
-      propertyPath: m_StepOffset
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4099625167704403651, guid: b356b0813d9d695489f7f381a41aa1d8, type: 3}
       propertyPath: m_Name
